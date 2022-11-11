@@ -102,7 +102,7 @@ class apiController{
     
             if($band){
                 $this->model->deleteOne($id);
-                $this->view->response("La banda con el id=$id fue eliminada con exito",200);
+                $this->view->response("La banda: $band->nombre_banda con el id=$id fue eliminada con exito",200);
             }
     
             else{
@@ -121,6 +121,7 @@ class apiController{
             } else {
                 $id = $this->model->insertBand($bands->nombre_banda, $bands->cantidad_discos, $bands->origen_banda, $bands->id_genero_fk);
                 $band = $this->model->getOne($id);
+                $this->view->response("La banda: $bands->nombre_banda con el id=$id fue creada con exito", 201);
               
                 $this->view->response($band, 201);
             }
