@@ -1,0 +1,15 @@
+en el offset le indicas a partir de cual y en el limit la cantidad que queres por pagina
+        ponele que tenes una tabla con 10 elementos y queres mostrar de a 5
+        pones offset=0 y limit 5 si queres ver los primeros 5
+
+Los controllers obtienen los parámetros del recurso a través de un arreglo asociativo 
+que es enviado a los métodos con el nombre $params.
+
+
+//throw new Exception("ingreso un valor no numerico")
+manejar errores 
+try {
+    throw new Exception("Algún mensaje de error");
+} catch(Exception $e) {
+    echo $e->getMessage();
+}

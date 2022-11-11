@@ -1,0 +1,29 @@
+DOCUMENTACION API PARA RECURSO BANDAS
+
+Una API FULL-REST sencilla para manejar un CRUD de bandas.
+
+IMPORTAR LA BASE DE DATOS
+
+importar desde PHPMyAdmin (o cualquiera) database/db_bandas.sql
+
+
+PRUEBA CON POSTMAN
+    El endpoint de la API es: http://localhost/tucarpetalocal/api/bands
+
+
+PAGINATION
+agregar query params para obtener la solicitud
+    /bands?limit=5&offset=1
+
+SORTING
+
+agregar query params para obtener la solicitud
+  order = ASC OR DESC.
+  sort = Columna de la tabla correspondiente a la db.
+ejemplo:
+  api/bands?sort="columna"&order="desc"
+
+
+CONTACTO
+ oroquietaluciano@gmail.com
+
