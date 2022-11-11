@@ -8,7 +8,18 @@ importar desde PHPMyAdmin (o cualquiera) database/db_bandas.sql
 
 
 PRUEBA CON POSTMAN
-    El endpoint de la API es: http://localhost/tucarpetalocal/api/bands
+
+El endpoint de la API es: http://localhost/tucarpetalocal/api/bands
+
+
+El nombre del recurso se asigna a un endpoint, aqui las consultas:
+
+Method	Url	        Code	
+GET	    /bands	        200	   
+GET	    /bands/:id	    200	  
+POST	  /bands	        201	
+PUT	    /bands/:id	    200	
+DELETE	/bands/:id      200	  
 
 
 PAGINATION
