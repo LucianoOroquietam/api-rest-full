@@ -13,3 +13,17 @@ try {
 } catch(Exception $e) {
     echo $e->getMessage();
 }
+
+Filtro
+linkTo el valor es el nombre de la columna 
+equalTo (el enlace que voy a buscar quiero que sea igual a ..)
+
+
+ $query= $this->db->prepare("SELECT * FROM bandas WHERE $linkTo = :$linkTo");
+ PARA COLOCAR EL VALOR EN PDO EXISTE EL ENLACE DE PARAMETROS POR SEGURIDAD.
+ colocas el mismo nombre de columna pero con dos puntos antes para decir que vamos a enlazar un parametro
+ y el parametro lo enlazamos luego de preparar la sentencia sql.
+
+$query->bindParam(":".$linkTo, $equalTo, PDO::PARAM_STR);
+el bindParam enlaza parametros
+Nombre columna , valor de lo que quiero enlazar y luego pdo de tipo string

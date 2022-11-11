@@ -9,19 +9,21 @@ class bandsModel{
     }
 
 
-    function getAll($sort=null,$order=null,$offset=null,$limit=null){
+    function getAll($sort=null,$order=null,$offset=null,$limit=null,$linkTo=null,$equalTo=null){
+
+       
         
         if(($sort && $order) && ($offset==null && $limit==null)){
             echo "entro al order";
             /*Ordenar datos sin limites */
-            $query= $this->db->prepare("SELECT * FROM bandas ORDER BY $sort $order");
+            $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda FROM bandas ORDER BY $sort $order");
             $query->execute();
         }
         else{
             if(($offset && $limit) && ($sort==null && $order==null) ){
                 echo "entro en ofset limit";
                     /*Limitar datos sin ordenar */
-                    $query= $this->db->prepare("SELECT * FROM bandas LIMIT $limit OFFSET $offset");
+                    $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda FROM bandas LIMIT $limit OFFSET $offset");
                     $query->execute(); 
             }
         }
@@ -30,16 +32,26 @@ class bandsModel{
 
         echo "entro al order con limit";
         /*Limitar datos con orden */
-        $query= $this->db->prepare("SELECT * FROM bandas ORDER BY $sort $order LIMIT $limit OFFSET $offset");
+        $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda FROM bandas ORDER BY $sort $order LIMIT $limit OFFSET $offset");
         $query->execute(); 
            
        }else{
-            if($sort==null && $order==null && $limit==null && $offset==null){
+            if($sort==null && $order==null && $limit==null && $offset==null && $linkTo==null && $equalTo==null){
                 echo "entro al get all";
                     /*traigo la coleccion completa sin filtrar ni ordenar */
-                    $query = $this->db->prepare("SELECT * FROM bandas");
+                    $query = $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda FROM bandas");
                     $query->execute();
             }
+       }
+
+       if($sort==null && $order==null && $limit==null && $offset==null && $linkTo!=null && $equalTo!=null){
+
+        echo "entro al filter";
+        /*filtrado por valor de columna */
+        $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda FROM bandas WHERE $linkTo = :$linkTo");
+        $query->bindParam(":".$linkTo, $equalTo, PDO::PARAM_STR);
+        $query->execute();
+
        }
       
       
