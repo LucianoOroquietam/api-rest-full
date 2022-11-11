@@ -35,10 +35,9 @@ class apiController{
                     
 
                     if(((strtoupper($_GET['order']) == 'ASC') || (strtoupper($_GET['order'])== 'DESC')) && in_array($_GET['sort'],$columns)){
-                        var_dump(in_array($_GET['sort'],$columns));
                         $bands = $this->model->getAll($_GET['sort'],$_GET['order'],null,null);
                         $this->view->response($bands);
-                        $this->view->response("consulta exitosa ",200);  
+                        $this->view->response("La consulta del orderBy fue Exitosa! ",200);  
                     }
                     else{
                         $this->view->response("revise el nombre de columna o que haya ordenado correctamente",400); 
@@ -49,9 +48,10 @@ class apiController{
                 else{
                     if(isset($_GET['offset']) && isset($_GET['limit']) && !isset($_GET['sort']) && !isset($_GET['order']) ) {
                         if(is_numeric($_GET['offset']) && is_numeric($_GET['limit'])){
+                            var_dump(is_numeric($_GET['offset']) && is_numeric($_GET['limit']));
                             $bands = $this->model->getAll(null,null,$_GET['offset'],$_GET['limit']);
                             $this->view->response($bands);
-                            $this->view->response("consulta exitosa ",200);  
+                            $this->view->response("la consulta de paginacion fue Exitosa! ",200);  
                         }
                         else{
                             $this->view->response("revise el valor ingresado. para ver su consulta, debe ingresar ambos valores numericos",400);
@@ -61,7 +61,6 @@ class apiController{
 
                 if(isset($_GET['linkTo']) && isset($_GET['equalTo'])){
                         if(in_array($_GET['linkTo'],$columns)){
-                            var_dump(in_array($_GET['linkTo'],$columns));
                             $bands = $this->model->getAll(null,null,null,null,$_GET['linkTo'],$_GET['equalTo']);
                             $this->view->response($bands);
                             $this->view->response("La consulta de filtro fue exitosa ",200);   
@@ -73,13 +72,12 @@ class apiController{
                 }
                
         
-                if(!empty($_GET['sort']) && !empty($_GET['order']) && !empty($_GET['offset']) && !empty($_GET['limit'])){
+                if(isset($_GET['sort']) && isset($_GET['order']) && isset($_GET['offset']) && isset($_GET['limit'])){
                         $bands = $this->model->getAll($_GET['sort'],$_GET['order'],$_GET['offset'],$_GET['limit']);
                         $this->view->response($bands);
                         $this->view->response("La consulta del order con filtro fue Exitosa! ",200); 
                     }               
                 else if(empty($_GET['sort']) && empty($_GET['order']) && empty($_GET['offset']) && empty($_GET['limit']) && empty($_GET['linkTo']) && empty($_GET['equalTo'])){
-                    
                         $bands = $this->model->getAll();
                         $this->view->response($bands);
                         $this->view->response("La consulta de entidades fue Exitosa! ",200); 

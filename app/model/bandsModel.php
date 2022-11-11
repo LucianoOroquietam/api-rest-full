@@ -11,21 +11,20 @@ class bandsModel{
 
     function getAll($sort=null,$order=null,$offset=null,$limit=null,$linkTo=null,$equalTo=null){
 
-       
-        
-        if(($sort && $order) && ($offset==null && $limit==null)){
+        if(($sort!=null && $order!=null) && ($offset==null && $limit==null)){
             echo "entro al order";
             /*Ordenar datos sin limites */
             $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda FROM bandas ORDER BY $sort $order");
             $query->execute();
         }
         else{
-            if(($offset && $limit) && ($sort==null && $order==null) ){
+            if(($offset!=null && $limit!=null) && ($sort==null && $order==null) ){
                 echo "entro en ofset limit";
                     /*Limitar datos sin ordenar */
                     $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda FROM bandas LIMIT $limit OFFSET $offset");
                     $query->execute(); 
-            }
+            } 
+            
         }
 
        if($sort!=null && $order!=null && $limit!=null && $offset!=null) {
