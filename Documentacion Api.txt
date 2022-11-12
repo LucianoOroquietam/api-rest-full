@@ -15,14 +15,14 @@ El endpoint de la API es: http://localhost/tucarpetalocal/api/bands
 El nombre del recurso se asigna a un endpoint, aqui las consultas:
 
 Method	Url	        Code	
-GET	    /bands	        200	   
-GET	    /bands/:id	    200	  
-POST	  /bands	        201	
-PUT	    /bands/:id	    200	
-DELETE	/bands/:id      200	  
+GET	    /bands	        200	 -> coleccion de entidades.
+GET	    /bands/:id	    200	 -> obtenemos un banda en especifica
+POST	  /bands	        201	 -> creamos una banda.
+DELETE	/bands/:id      200	 -> eliminamos una banda especifica.
 
 
 PAGINATION
+
 agregar query params para obtener la solicitud
     /bands?limit=5&offset=1
 
@@ -33,6 +33,17 @@ agregar query params para obtener la solicitud
   sort = Columna de la tabla correspondiente a la db.
 ejemplo:
   api/bands?sort="columna"&order="desc"
+
+Filtering
+
+agregar query params para obtener la solicitud
+  linkTo = valor de la columna. 
+  equalTo = valor de la columna.
+ejemplo:
+  api/bands?linkTo="cantidad_discos"&equalTo="10"
+
+
+
 
 
 CONTACTO
