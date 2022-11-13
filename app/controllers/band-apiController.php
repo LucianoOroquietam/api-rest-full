@@ -34,10 +34,26 @@ class apiController{
         try{ 
             $columns =["id_banda","id_genero_fk","nombre_banda","cantidad_discos","origen_banda","genero_banda"];
 
-                if(isset($_GET['sort']) && isset($_GET['order']) && isset($_GET['linkTo']) && isset($_GET['equalTo'])){
-                    $bands = $this->model->getAll($_GET['sort'],$_GET['order'],$_GET['linkTo'],$_GET['equalTo']);
+                if(isset($_GET['sort']) && isset($_GET['order']) && isset($_GET['offset']) && isset($_GET['limit']) && isset($_GET['linkTo']) && isset($_GET['equalTo']) ){
+                   
+                    if(is_numeric($_GET['offset']) && is_numeric($_GET['limit'])&& in_array($_GET['sort'],$columns) && in_array($_GET['linkTo'],$columns) && strtoupper(($_GET['order']) == 'ASC') || (strtoupper($_GET['order'])== 'DESC')){
+                        $bands = $this->model->getAll($_GET['sort'],$_GET['order'],($_GET['offset']),($_GET['limit']),$_GET['linkTo'],$_GET['equalTo']);
+                        $this->view->response($bands);
+                        $this->view->response("La consulta del order limit con filter fue Exitosa! ",200); 
+                    }else{
+                        $this->view->response("ingrese los campos correctamente",400);
+                    }
+                }            
+
+                else if(isset($_GET['sort']) && isset($_GET['order']) && isset($_GET['linkTo']) && isset($_GET['equalTo'])){
+                    $bands = $this->model->getAll($_GET['sort'],$_GET['order'],null,null,$_GET['linkTo'],$_GET['equalTo']);
                     $this->view->response($bands);
                     $this->view->response("La consulta del order con filter fue Exitosa! ",200); 
+                }
+                else if(isset($_GET['limit']) && isset($_GET['offset']) && isset($_GET['linkTo']) && isset($_GET['equalTo'])){
+                    $bands = $this->model->getAll(null,null,$_GET['offset'],$_GET['limit'],$_GET['linkTo'],$_GET['equalTo']);
+                    $this->view->response($bands);
+                    $this->view->response("La consulta del limit con filter fue Exitosa! ",200); 
                 }
 
                else if(isset($_GET['sort']) && isset($_GET['order']) && isset($_GET['offset']) && isset($_GET['limit'])){
@@ -56,19 +72,16 @@ class apiController{
                     else
                     $this->view->response("revise el nombre de columna o que haya ordenado correctamente",400);
 
-                    
-                   
                 }
 
                 else if(isset($_GET['offset']) && isset($_GET['limit'])){
-                  
-                        if(is_numeric($_GET['offset']) && is_numeric($_GET['limit'])){
-                            $bands = $this->model->getAll(null,null,$_GET['offset'],$_GET['limit']);
-                            $this->view->response($bands);
-                            $this->view->response("la consulta de paginacion fue Exitosa! ",200);  
-                        }
+                
+                    if(is_numeric($_GET['offset']) && is_numeric($_GET['limit'])){
+                        $bands = $this->model->getAll(null,null,$_GET['offset'],$_GET['limit']);
+                        $this->view->response($bands);
+                        $this->view->response("la consulta de paginacion fue Exitosa! ",200);  
+                    }
                        
-                    
                 }
 
                 else if(isset($_GET['linkTo']) && isset($_GET['equalTo'])){
@@ -100,16 +113,10 @@ class apiController{
             }
         }
 
-        
-    
-
         function getBand($params= null){
             $id = $params[':ID'];
-    
             $band = $this->model->getOne($id);
-    
-           
-            
+
             if($band){
                 $this->view->response($band);
             }
@@ -150,30 +157,7 @@ class apiController{
               
                 $this->view->response($band, 201);
             }
-        }
-    
-    
-       function updateBand($params = null){
-    
-            $id = $params[':ID'];
-            
-            $band = $this->getData(); //Agarra lo q mando en postman y lo pasa a json
-    
-            if($band){
-                $this->model->updateBand($id,$band);
-                $this->view->response($band);
-                $this->view->response("La banda con el id=$id Fue creada con exito", 201);
-            }
-    
-            else{
-                $this->view->response("La banda con el id=$id No existe", 404);
-            }
-        }
-    
-    
-        
-           
-        
+        }   
     }
        
 

@@ -10,7 +10,7 @@ $router->addRoute('bands', 'GET', 'apiController', 'getBands');
 $router->addRoute('bands/:ID', 'GET', 'apiController', 'getBand');
 $router->addRoute('bands/:ID', 'DELETE', 'apiController', 'deleteBand');
 $router->addRoute('bands', 'POST', 'apiController', 'insertBand');
-$router->addRoute('bands/:ID', 'PUT', 'apiController', 'updateBand');
+
 
 
 
