@@ -9,29 +9,31 @@ class bandsModel{
     }
 
 
-    function getAll($sort=null,$order=null,$offset=null,$limit=null,$linkTo=null,$equalTo=null){
+    function getAll($sort,$order,$offset,$limit){
+        
 
-        if(($sort!=null && $order!=null) && ($offset==null && $limit==null && $linkTo==null && $equalTo==null)){
+        if(($sort && $order) && ($offset==null && $limit==null)){
             echo "entro al order";
             /*Ordenar datos sin limites */
             $query = $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero ORDER BY $sort $order");
             $query->execute();
         }else{
-            if(($offset!=null && $limit!=null) && ($sort==null && $order==null && $linkTo==null && $equalTo==null)){
-                echo "entro en ofset limit";
+            if(($offset!=null && $limit!=null) && ($sort==null && $order==null)){
+                echo "entro en ofsset limit";
                 /*Limitar datos sin ordenar */
                 $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero LIMIT $limit OFFSET $offset");
                 $query->execute(); 
+                
             } 
         }
 
-       if(($sort!=null && $order!=null && $limit!=null && $offset!=null) && ($linkTo==null && $equalTo==null)){
+       if(($sort!=null && $order!=null && $limit!=null && $offset!=null)){
             echo "entro al order con limit";
             /*Limitar datos con orden */
             $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero ORDER BY $sort $order LIMIT $limit OFFSET $offset");
             $query->execute(); 
        }else{
-            if($sort==null && $order==null && $limit==null && $offset==null && $linkTo==null && $equalTo==null){
+            if($sort==null && $order==null && $limit==null && $offset==null){
                 echo "entro al get all";
                /*obtener la coleccion completa sin filtrar ni ordenar */
                     $query = $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero");
@@ -39,40 +41,47 @@ class bandsModel{
             }
        }
 
-       if($sort==null && $order==null && $limit==null && $offset==null && $linkTo!=null && $equalTo!=null){
-        echo "entro al filter";
-        /*filtrado por valor de columna */
-        $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero WHERE $linkTo = :$linkTo");
-        $query->bindParam(":".$linkTo, $equalTo, PDO::PARAM_STR); 
-        $query->execute();
-
-       }
-       else if($sort!=null && $order!=null && $linkTo!=null && $equalTo!=null && $limit==null && $offset==null){
-        echo "entro al filter con order";
-        /*filtrado con order by*/ 
-        $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero WHERE $linkTo = :$linkTo ORDER BY $sort $order");
-        $query->bindParam(":".$linkTo, $equalTo, PDO::PARAM_STR); 
-        $query->execute();
-       }
-
-       else if($limit!=null && $offset!=null && $linkTo!=null && $equalTo!=null && $order==null && $sort==null){
-        echo "entro al filter con limit";
-        /*filtrado con limit*/ 
-        $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero WHERE $linkTo = :$linkTo LIMIT $limit OFFSET $offset");
-        $query->bindParam(":".$linkTo, $equalTo, PDO::PARAM_STR); 
-        $query->execute();
-       }
-
-       else if($sort!=null && $order!=null && $limit!=null && $offset!=null && $linkTo!=null && $equalTo!=null){
-        echo "entro al filter con order y limit";
-        /*Filtrado con order y limit */
-        $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero WHERE $linkTo = :$linkTo ORDER BY $sort $order LIMIT $limit OFFSET $offset");
-        $query->bindParam(":".$linkTo, $equalTo, PDO::PARAM_STR); 
-        $query->execute();
-       }
+    
 
        $bands= $query->fetchAll(PDO::FETCH_OBJ);
        return $bands;
+    }
+
+    function getAllByFilter($sort, $order, $offset, $limit, $linkTo, $equalTo){
+        if($sort==null && $order==null && $limit==null && $offset==null && $linkTo!=null && $equalTo!=null){
+            echo "entro al filter";
+            /*filtrado por valor de columna */
+            $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero WHERE $linkTo = :$linkTo");
+            $query->bindParam(":".$linkTo, $equalTo, PDO::PARAM_STR); 
+            $query->execute();
+    
+           }
+           else if($sort!=null && $order!=null && $linkTo!=null && $equalTo!=null && $limit==null && $offset==null){
+            echo "entro al filter con order";
+            /*filtrado con order by*/ 
+            $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero WHERE $linkTo = :$linkTo ORDER BY $sort $order");
+            $query->bindParam(":".$linkTo, $equalTo, PDO::PARAM_STR); 
+            $query->execute();
+           }
+    
+           else if($limit!=null && $offset!=null && $linkTo!=null && $equalTo!=null && $order==null && $sort==null){
+            echo "entro al filter con limit";
+            /*filtrado con limit*/ 
+            $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero WHERE $linkTo = :$linkTo LIMIT $limit OFFSET $offset");
+            $query->bindParam(":".$linkTo, $equalTo, PDO::PARAM_STR); 
+            $query->execute();
+           }
+    
+           else if($sort!=null && $order!=null && $limit!=null && $offset!=null && $linkTo!=null && $equalTo!=null){
+            echo "entro al filter con order y limit";
+            /*Filtrado con order y limit */
+            $query= $this->db->prepare("SELECT id_banda,nombre_banda,cantidad_discos,origen_banda,genero_banda FROM bandas JOIN genero ON bandas.id_genero_fk = genero.id_genero WHERE $linkTo = :$linkTo ORDER BY $sort $order LIMIT $limit OFFSET $offset");
+            $query->bindParam(":".$linkTo, $equalTo, PDO::PARAM_STR); 
+            $query->execute();
+           }
+
+           $bands= $query->fetchAll(PDO::FETCH_OBJ);
+           return $bands;
     }
 
     function getOne($id){

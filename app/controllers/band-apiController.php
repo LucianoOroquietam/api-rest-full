@@ -29,95 +29,115 @@ class apiController{
 
 
 
-    function getBands($params=null){
-        echo "probando rama secu";
-       
+    function getBands($params=null){   
         try{ 
-            $columns =["id_banda","nombre_banda","cantidad_discos","origen_banda","genero_banda"];
 
-                if(isset($_GET['sort']) && isset($_GET['order']) && isset($_GET['offset']) && isset($_GET['limit']) && isset($_GET['linkTo']) && isset($_GET['equalTo']) ){
-                   
-                    if(is_numeric($_GET['offset']) && is_numeric($_GET['limit'])&& in_array($_GET['sort'],$columns) && in_array($_GET['linkTo'],$columns) && strtoupper(($_GET['order']) == 'ASC') || (strtoupper($_GET['order'])== 'DESC')){
-                        $bands = $this->model->getAll($_GET['sort'],$_GET['order'],($_GET['offset']),($_GET['limit']),$_GET['linkTo'],$_GET['equalTo']);
-                        $this->view->response($bands);
-                        $this->view->response("La consulta del order limit con filter fue Exitosa! ",200); 
-                    }else{
-                        $this->view->response("ingrese los campos correctamente",400);
-                    }
-                }            
+            $linkTo = $_GET["linkTo"] ?? null;
+            $equalTo = $_GET["equalTo"] ?? null;
+            $sort = $_GET["sort"] ?? null;
+            $order = $_GET["order"] ?? null;
+            $limit = $_GET["limit"] ?? null;
+            $offset =  $_GET["offset"] ?? null;
+          
+            $this->verifyParams($linkTo, $equalTo, $sort, $order, $limit, $offset);
 
-                else if(isset($_GET['sort']) && isset($_GET['order']) && isset($_GET['linkTo']) && isset($_GET['equalTo'])){
-                    $bands = $this->model->getAll($_GET['sort'],$_GET['order'],null,null,$_GET['linkTo'],$_GET['equalTo']);
-                    $this->view->response($bands);
-                    $this->view->response("La consulta del order con filter fue Exitosa! ",200); 
-                }
-                else if(isset($_GET['limit']) && isset($_GET['offset']) && isset($_GET['linkTo']) && isset($_GET['equalTo'])){
-                    $bands = $this->model->getAll(null,null,$_GET['offset'],$_GET['limit'],$_GET['linkTo'],$_GET['equalTo']);
-                    $this->view->response($bands);
-                    $this->view->response("La consulta del limit con filter fue Exitosa! ",200); 
-                }
+            $bands=null;
 
-               else if(isset($_GET['sort']) && isset($_GET['order']) && isset($_GET['offset']) && isset($_GET['limit'])){
-                    $bands = $this->model->getAll($_GET['sort'],$_GET['order'],$_GET['offset'],$_GET['limit']);
-                    $this->view->response($bands);
-                    $this->view->response("La consulta del order con limit fue Exitosa! ",200); 
-                }
-
-                else if(isset($_GET['sort']) && isset($_GET['order'])){
+            if(isset($sort) && isset($order) && isset($offset) && isset($limit) && isset($linkTo) && isset($equalTo) ){
+                $bands = $this->model->getAllByFilter($sort, $order, $offset, $limit, $linkTo, $equalTo);
+                $this->view->response("La consulta del orderBy, con Paginado y Filtrado fue Exitosa! ",200);
                 
-                    if(((strtoupper($_GET['order']) == 'ASC') || (strtoupper($_GET['order'])== 'DESC')) && in_array($_GET['sort'],$columns)){
-                        $bands = $this->model->getAll($_GET['sort'],$_GET['order']);
-                        $this->view->response($bands);
-                        $this->view->response("La consulta del orderBy fue Exitosa! ",200);  
-                    }
-                    else
-                    $this->view->response("revise el nombre de columna o que haya ordenado correctamente",403);
-
-                }
-
-                else if(isset($_GET['offset']) && isset($_GET['limit'])){
-                
-                    if(is_numeric($_GET['offset']) && is_numeric($_GET['limit'])){
-                        $bands = $this->model->getAll(null,null,$_GET['offset'],$_GET['limit']);
-                        $this->view->response($bands);
-                        $this->view->response("la consulta de paginacion fue Exitosa! ",200);  
-                    }
-                    else{
-                        $this->view->response("revise que haya ingresado un valor numerico",403);
-                    }
-                       
-                }
-
-                else if(isset($_GET['linkTo']) && isset($_GET['equalTo'])){
-                        if(in_array($_GET['linkTo'],$columns)){
-                            $bands = $this->model->getAll(null,null,null,null,$_GET['linkTo'],$_GET['equalTo']);
-                            $this->view->response($bands);
-                            $this->view->response("La consulta de filtro fue exitosa ",200); 
-                        }
-                        else{
-                            $this->view->response("La consulta de filtro no fue exitosa ",400);
-                        }
-                        
-                }
-
-                else if(isset($_GET['sort']) || isset($_GET['order'])){
-                    $this->view->response("revise el nombre de columna o que haya ordenado correctamente",400);
-                    
-                }
-               
-                else {
-    
-                        $bands = $this->model->getAll();
-                        $this->view->response($bands);
-                        $this->view->response("La consulta de entidades fue Exitosa! ",200); 
-                    }
-            } catch (Exception $e){
-                $this->view->response("Internal Server Error:",500); 
-                echo $e->getMessage();
-                die();
             }
+            else if(isset($sort) && isset($order) && isset($linkTo) && isset($equalTo) ){
+                $bands = $this->model->getAllByFilter($sort, $order, null, null, $linkTo, $equalTo);
+                $this->view->response("La consulta del orderBy con Filtrado fue Exitosa! ",200);
+                
+            }
+            else if(isset($offset) && isset($limit) && isset($linkTo) && isset($equalTo) ){
+                $bands = $this->model->getAllByFilter(null, null, $offset, $limit, $linkTo, $equalTo);
+                $this->view->response("La consulta del Paginado con Filtrado fue Exitosa! ",200);
+            }
+            else if(isset($sort) && isset($order) && isset($offset) && isset($limit)){
+                $bands = $this->model->getAll($sort, $order, $offset, $limit);
+                $this->view->response("La consulta del order con limit fue Exitosa! ",200); 
+            }
+            else if(isset($sort)&&isset($order)){
+                
+                $bands = $this->model->getAll($sort, $order,null,null);
+                $this->view->response("La consulta del orderBy fue Exitosa! ",200); 
+            }
+            else if(isset($offset) && isset($limit)){
+                
+                if(is_numeric($offset) && is_numeric($limit)){
+                    $bands = $this->model->getAll(null,null,$offset,$limit);
+                    $this->view->response("la consulta de paginacion fue Exitosa! ",200);  
+                }
+                
+            }
+            else{
+                $bands = $this->model->getAll(null,null,null,null);
+                $this->view->response("La coleccion de entidades fue Exitosa! ",200); 
+            }
+
+            
+            
+            if ($bands != null){
+                $this->view->response($bands, 200);
+                
+            }else{
+                $this->view->response("There are not bands", 404);
+            }
+
+            }
+            catch(Exception $e){
+            $this->view->response("Internal Server Error:", 500);
         }
 
+
+        }
+        private function verifyParams($linkTo, $equalTo, $sort, $order, $limit, $offset) {
+            $columns = [
+                "id_banda", 
+                "id_genero_fk", 
+                "nombre_banda", 
+                "cantidad_discos", 
+                "origen_banda", 
+                "imagen_banda",
+                "genero_banda"
+            ];
+    
+            if ($equalTo != null && !in_array(strtolower($linkTo), $columns)) {
+                $this->view->response("Wrong query param linkTo: $linkTo in GET request", 400);
+                die;
+            }
+    
+            if ($linkTo != null && $equalTo == null) {
+                $this->view->response("Wrong or missing param linkTo in GET request", 400);
+                die;
+            }
+    
+            if ($order != null && !in_array(strtolower($sort), $columns)) {
+                $this->view->response("columna erronea: $sort o orden mal escrito $order in GET request", 400);
+                die;
+            }
+    
+            if (($order != null) && ($order != "asc" && $order != "desc" && $order !="ASC" && $order !="DESC")) {
+                $this->view->response("Wrong query param order in GET request", 400);
+                die;
+            }
+    
+            if ($offset != null && (!is_numeric($offset) || $offset < 0)) {
+                $this->view->response("Wrong query param page in GET request", 400);
+                die;
+            }
+    
+            if ($limit != null && (!is_numeric($limit) || $limit < 0)) {
+                $this->view->response("Wrong query param limit in GET request", 400);
+                die;
+            }
+            
+        }  
+            
         function getBand($params= null){
             $id = $params[':ID'];
             $band = $this->model->getOne($id);
