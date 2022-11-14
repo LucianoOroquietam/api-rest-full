@@ -30,9 +30,10 @@ class apiController{
 
 
     function getBands($params=null){
+        echo "probando rama secu";
        
         try{ 
-            $columns =["id_banda","id_genero_fk","nombre_banda","cantidad_discos","origen_banda","genero_banda"];
+            $columns =["id_banda","nombre_banda","cantidad_discos","origen_banda","genero_banda"];
 
                 if(isset($_GET['sort']) && isset($_GET['order']) && isset($_GET['offset']) && isset($_GET['limit']) && isset($_GET['linkTo']) && isset($_GET['equalTo']) ){
                    
@@ -70,7 +71,7 @@ class apiController{
                         $this->view->response("La consulta del orderBy fue Exitosa! ",200);  
                     }
                     else
-                    $this->view->response("revise el nombre de columna o que haya ordenado correctamente",400);
+                    $this->view->response("revise el nombre de columna o que haya ordenado correctamente",403);
 
                 }
 
@@ -80,6 +81,9 @@ class apiController{
                         $bands = $this->model->getAll(null,null,$_GET['offset'],$_GET['limit']);
                         $this->view->response($bands);
                         $this->view->response("la consulta de paginacion fue Exitosa! ",200);  
+                    }
+                    else{
+                        $this->view->response("revise que haya ingresado un valor numerico",403);
                     }
                        
                 }
@@ -108,6 +112,7 @@ class apiController{
                         $this->view->response("La consulta de entidades fue Exitosa! ",200); 
                     }
             } catch (Exception $e){
+                $this->view->response("Internal Server Error:",500); 
                 echo $e->getMessage();
                 die();
             }
