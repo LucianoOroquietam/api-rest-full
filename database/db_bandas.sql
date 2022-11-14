@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-11-2022 a las 20:56:03
+-- Tiempo de generación: 14-11-2022 a las 22:47:10
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -48,32 +48,8 @@ INSERT INTO `bandas` (`id_banda`, `id_genero_fk`, `nombre_banda`, `cantidad_disc
 (22, 1, 'El Plan De La Mariposa', 6, 'Necochea,Argentina(2008)', 'images/el plan de la mariposa.jpg'),
 (23, 1, 'Queen', 15, 'Londres, Inglaterra(1970)', 'images/queen.jpg'),
 (24, 2, 'Backstreet Boys', 9, 'Orlando, Florida Estados Unidos(1993)', 'images/backstreet boys.jpg'),
-(34, 1, 'La Renga', 10, ' Argentina, Buenos Aires(1994)', '');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `exitos_musicales`
---
-
-CREATE TABLE `exitos_musicales` (
-  `id_exitos` int(11) NOT NULL,
-  `id_nombre_banda_fk` int(11) NOT NULL,
-  `cancion` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `exitos_musicales`
---
-
-INSERT INTO `exitos_musicales` (`id_exitos`, `id_nombre_banda_fk`, `cancion`) VALUES
-(1, 21, '-El Viejo.\n-Zafar.\n-Mi Semilla.'),
-(2, 23, '-Bohemian Rhapsody.\r\n-I Want to Break Free.\r\n-The Show Must Go On.'),
-(3, 3, '-Dancing Queen.'),
-(4, 4, 'De musica ligera'),
-(5, 5, 'Rosas'),
-(6, 22, 'El Riesgo'),
-(7, 24, ' I Want It That Way');
+(34, 1, 'La Renga', 10, ' Argentina, Buenos Aires(1994)', ''),
+(37, 1, 'Babasonicos', 20, ' Argentina, Buenos Aires(1994)', '');
 
 -- --------------------------------------------------------
 
@@ -127,13 +103,6 @@ ALTER TABLE `bandas`
   ADD KEY `fk_restriction` (`id_genero_fk`);
 
 --
--- Indices de la tabla `exitos_musicales`
---
-ALTER TABLE `exitos_musicales`
-  ADD PRIMARY KEY (`id_exitos`),
-  ADD KEY `fk_exitos_restriction` (`id_nombre_banda_fk`);
-
---
 -- Indices de la tabla `genero`
 --
 ALTER TABLE `genero`
@@ -153,13 +122,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `bandas`
 --
 ALTER TABLE `bandas`
-  MODIFY `id_banda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
-
---
--- AUTO_INCREMENT de la tabla `exitos_musicales`
---
-ALTER TABLE `exitos_musicales`
-  MODIFY `id_exitos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_banda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `genero`
@@ -176,12 +139,6 @@ ALTER TABLE `genero`
 --
 ALTER TABLE `bandas`
   ADD CONSTRAINT `fk_restriction` FOREIGN KEY (`id_genero_fk`) REFERENCES `genero` (`id_genero`);
-
---
--- Filtros para la tabla `exitos_musicales`
---
-ALTER TABLE `exitos_musicales`
-  ADD CONSTRAINT `fk_exitos_restriction` FOREIGN KEY (`id_nombre_banda_fk`) REFERENCES `bandas` (`id_banda`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

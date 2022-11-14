@@ -19,6 +19,8 @@ linkTo el valor es el nombre de la columna
 equalTo (el enlace que voy a buscar quiero que sea igual a ..)
 
 
+
+
  $query= $this->db->prepare("SELECT * FROM bandas WHERE $linkTo = :$linkTo");
  PARA COLOCAR EL VALOR EN PDO EXISTE EL ENLACE DE PARAMETROS POR SEGURIDAD.
  colocas el mismo nombre de columna pero con dos puntos antes para decir que vamos a enlazar un parametro

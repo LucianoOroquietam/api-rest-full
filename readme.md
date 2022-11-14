@@ -1,32 +1,51 @@
-DOCUMENTACION API PARA RECURSO BANDAS
+# DOCUMENTACION API PARA RECURSO BANDAS
 
 Una API FULL-REST sencilla para manejar un CRUD de bandas.
 
-IMPORTAR LA BASE DE DATOS
+# IMPORTAR LA BASE DE DATOS
 
 importar desde PHPMyAdmin (o cualquiera) database/db_bandas.sql
 
 
-PRUEBA CON POSTMAN
+# PRUEBA CON POSTMAN
 
 El endpoint de la API es: http://localhost/tucarpetalocal/api/bands
 
 
 El nombre del recurso se asigna a un endpoint, aqui las consultas:
 
-Method	Url	        Code	
+# Method	Url	        Code	
 GET	    /bands	        200	 -> coleccion de entidades.
+
 GET	    /bands/:id	    200	 -> obtenemos un banda en especifica(:id).
+
 POST	  /bands	        201	 -> creamos una banda.
+
 DELETE	/bands/:id      200	 -> eliminamos una banda especifica(:id).
 
+## Method: GET, URL : carpetaProyecto/api/bands/:ID -
+Al endpoint agregandole un ID especifico logramos que nos traiga el detalle de una banda en especifica. 
 
-PAGINATION
+## Method: DELETE, URL: carpetaProyecto/api/bands/:ID -
+Con el metodo DELETE lo que logramos es poder eliminar una banda con un ID en especifico.
+
+## Method: POST, URL: carpetaProyecto/api/bands -
+Para insertar una banda necesitamos el body en formato JSON, para poder completar los campos de dicha banda.
+por ejemplo:
+
+{
+"id_genero_fk": 1,
+"nombre_banda": "Ratones paranoicos",
+"cantidad_discos": 20,
+"origen_banda": " Argentina, Buenos Aires(1994)"
+}
+
+# PAGINACION
 
 agregar query params (?) para obtener la solicitud
     api/bands?limit=5&offset=1
 
-SORTING
+# ORDENAMIENTO
 
 agregar query params (?) para obtener la solicitud
   order = ASC OR DESC.
@@ -34,7 +53,7 @@ agregar query params (?) para obtener la solicitud
 ejemplo:
   api/bands?sort="columna"&order="desc"
 
-Filtering
+# FILTRADO
 
 agregar query params (?) para obtener la solicitud
   linkTo = Nombre de la columna. 
@@ -46,6 +65,6 @@ ejemplo:
 
 
 
-CONTACTO
+# CONTACTO
  oroquietaluciano@gmail.com
 
