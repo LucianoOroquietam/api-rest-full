@@ -43,7 +43,6 @@ por ejemplo:
 Aclaracion : el id_genero_fk es la clave foranea que relaciona una tabla con la otra . en este caso banda por genero. 
 1 = rock. 
 2 = pop. 
-
 # PAGINACION
 
 agregar query params (?) para obtener la solicitud
