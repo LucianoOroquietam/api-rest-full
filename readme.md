@@ -23,13 +23,13 @@ POST	  /bands	        201	 -> creamos una banda.
 
 DELETE	/bands/:id      200	 -> eliminamos una banda especifica(:id).
 
-## Method: GET, URL : carpetaProyecto/api/bands/:ID -
+## Method: GET, URL : tucarpetalocal/api/bands/:ID -
 Al endpoint agregandole un ID especifico logramos que nos traiga el detalle de una banda en especifica. 
 
-## Method: DELETE, URL: carpetaProyecto/api/bands/:ID -
+## Method: DELETE, URL: tucarpetalocal/api/bands/:ID -
 Con el metodo DELETE lo que logramos es poder eliminar una banda con un ID en especifico.
 
-## Method: POST, URL: carpetaProyecto/api/bands -
+## Method: POST, URL: tucarpetalocal/api/bands -
 Para insertar una banda necesitamos el body en formato JSON, para poder completar los campos de dicha banda.
 por ejemplo:
 
