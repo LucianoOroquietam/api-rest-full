@@ -83,11 +83,10 @@ class apiController{
             foreach ($_GET as $i => $value) {
                 if ($i != 'sort' && $i != 'order' && $i != 'limit' && $i != 'offset' && $i != 'resource' && $i != 'linkTo' && $i != 'equalTo'){
                     $this->view->response('Parametro Inexistente', 400);
-                    die();
+                    die;
                 }
             }
 
-            
             if ($equalTo!=null && !in_array(strtolower($linkTo), $columns)) {
                 $this->view->response("parametro de consulta incorrecto linkTo: $linkTo en la solicitud GET", 400);
                 die;
