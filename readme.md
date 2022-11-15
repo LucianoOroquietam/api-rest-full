@@ -14,7 +14,7 @@ El endpoint de la API es: http://localhost/tucarpetalocal/api/bands
 
 El nombre del recurso se asigna a un endpoint, aqui las consultas:
 
-# Method	Url	        Code	
+Method	Url	        Code	
 GET	    /bands	        200	 -> coleccion de entidades.
 
 GET	    /bands/:id	    200	 -> obtenemos un banda en especifica(:id).

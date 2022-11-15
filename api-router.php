@@ -14,3 +14,4 @@ $router->addRoute('bands', 'POST', 'apiController', 'insertBand');
 
 // ejecuta la ruta (sea cual sea)
 $router->route($_GET["resource"], $_SERVER['REQUEST_METHOD']);
+
