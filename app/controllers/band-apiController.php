@@ -12,12 +12,10 @@ class apiController{
         $this->view = new apiView();
         $this->model = new bandsModel();
         $this->data = file_get_contents("php://input");
-        //permite leer la entrada enviada en formato raw    
     }
 
     private function getData() {
-        return json_decode($this->data);
-        //devuelve un objeto json
+        return json_decode($this->data);     
     }
 
     function getBands($params=null){
@@ -30,6 +28,7 @@ class apiController{
                 $limit = $_GET["limit"] ?? null;
                 $offset =  $_GET["offset"] ?? null;
 
+                /*verifico los query params  */
                 $this->verifyParams($linkTo, $equalTo, $sort, $order, $limit, $offset);
 
                 $bands=null;
@@ -119,6 +118,7 @@ class apiController{
         }  
             
         function getBand($params= null){
+            /*metodo get id especifico */
             $id = $params[':ID'];
             $band = $this->model->getOne($id);
 
@@ -132,7 +132,7 @@ class apiController{
     
     
         function deleteBand($params = null){
-    
+            /*metodo delete */
             $id = $params[':ID'];
     
             $band = $this->model->getOne($id);
@@ -149,9 +149,8 @@ class apiController{
         }
     
         function insertBand($params = null){
-    
+            /*metodo post*/
             $bands = $this->getData();
-            //esto seria el body de mi objeto json 
     
             if (empty($bands->nombre_banda) || empty($bands->cantidad_discos) || empty($bands->origen_banda) || empty($bands->id_genero_fk) ) {
                 $this->view->response("DATOS INCOMPLETOS!! ,Complete los datos para continuar con la consulta", 400);

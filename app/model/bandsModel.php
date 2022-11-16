@@ -83,6 +83,6 @@ class bandsModel{
         $query->execute([$nombre_banda, $cantidad_discos, $origen_banda,$id_genero_fk]);
 
         return $this->db->lastInsertId(); 
-        //devuelvo el ultimo id ,en este caso devuelvo la ultima banda que agregue
+       
     }
 }
