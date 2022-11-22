@@ -162,7 +162,30 @@ class apiController{
               
                 $this->view->response($band, 201);
             }
-        }   
+        }
+        
+        function updateBand($params=null){
+            $id= $params[':ID'];
+
+            $band=$this->model->getOne($id);
+    
+            $updatedBand=$this->getData();
+    
+              if($band){
+    
+                if(!empty($updatedBand->nombre_banda) && !empty($updatedBand->cantidad_discos) && !empty($updatedBand->origen_banda) && !empty($updatedBand->id_genero_fk)){
+                    $this->model->updateGame($id,$updatedBand->nombre_banda, $updatedBand->cantidad_discos, $updatedBand->origen_banda, $updatedBand->id_genero_fk);
+                    $this->view->response("La banda: $band->nombre_banda con el id = $id fue editada con exito",200);
+                }
+                else{
+                    $this->view->response("complete bien los datos",400);
+                }
+    
+              }
+              else{
+                $this->view->response("la banda con el id ($id) no existe",404);
+              }
+        }
     }
        
 

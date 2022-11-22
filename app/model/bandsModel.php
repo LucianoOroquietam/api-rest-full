@@ -85,4 +85,12 @@ class bandsModel{
         return $this->db->lastInsertId(); 
         //devuelvo el ultimo id ,en este caso devuelvo la ultima banda que agregue
     }
+
+    function updateGame($id,$nombre_banda,$cantidad_discos,$origen_banda,$id_genero_fk){
+
+    $query = $this->db->prepare('UPDATE bandas SET nombre_banda = ?, cantidad_discos = ?, origen_banda = ?, id_genero_fk = ? WHERE id_banda = ?');
+    $query-> execute([$nombre_banda,$cantidad_discos,$origen_banda,$id_genero_fk,$id]);
+
+
+    }
 }

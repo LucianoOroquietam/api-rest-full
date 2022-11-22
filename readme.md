@@ -32,6 +32,7 @@ Con el metodo DELETE lo que logramos es poder eliminar una banda con un ID en es
 ## Method: POST, URL: carpetaProyecto/api/bands -
 Para insertar una banda necesitamos el body en formato JSON, para poder completar los campos de dicha banda.
 por ejemplo:
+image.png
 
 {
 "id_genero_fk": 1,
