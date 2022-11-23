@@ -79,8 +79,8 @@ El codigo de respuesta a los errores que maneja la API son los siguientes:
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
 
 
-
-
+# DOCUMENTACION PUBLICADA EN POSTMAN
+https://documenter.getpostman.com/view/24114875/2s8YsnWbME
 # CONTACTO
  oroquietaluciano@gmail.com
 
