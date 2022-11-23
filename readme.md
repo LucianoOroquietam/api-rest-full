@@ -70,7 +70,9 @@ ejemplo:
 El codigo de respuesta a los errores que maneja la API son los siguientes:
 
 400 => "Bad request".
+
 404 => "Not found".
+
 500 => "Internal Server Error".
 
 # Para mayor informacion de los errores se adjunta documentacion.
