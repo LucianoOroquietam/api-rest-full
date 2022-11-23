@@ -32,7 +32,6 @@ Con el metodo DELETE lo que logramos es poder eliminar una banda con un ID en es
 ## Method: POST, URL: carpetaProyecto/api/bands -
 Para insertar una banda necesitamos el body en formato JSON, para poder completar los campos de dicha banda.
 por ejemplo:
-image.png
 
 {
 "id_genero_fk": 1,
@@ -66,6 +65,16 @@ agregar query params (?) para obtener la solicitud
 ejemplo:
   api/bands?linkTo="cantidad_discos"&equalTo="10"
 
+# ERORRES
+
+El codigo de respuesta a los errores que maneja la API son los siguientes:
+
+400 => "Bad request".
+404 => "Not found".
+500 => "Internal Server Error".
+
+# Para mayor informacion de los errores se adjunta documentacion.
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
 
 
 
